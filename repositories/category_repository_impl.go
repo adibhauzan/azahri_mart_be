@@ -6,21 +6,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type CategoryRepositoryImpl struct {
+type ProductCategoryRepositoryImpl struct {
 	DB *gorm.DB
 }
 
-func NewCategoryRepositoryImpl(db *gorm.DB) CategoryRepository {
-	return &CategoryRepositoryImpl{
+func NewCategoryRepositoryImpl(db *gorm.DB) ProductCategoryRepository {
+	return &ProductCategoryRepositoryImpl{
 		DB: db,
 	}
 }
 
-func (repository *CategoryRepositoryImpl) Save(category domain.Category) domain.Category {
-	category.ID = uuid.New()
-	err := repository.DB.Create(&category).Error
+func (repository *ProductCategoryRepositoryImpl) Save(productCategory domain.ProductCategory) domain.ProductCategory {
+	productCategory.ID = uuid.New()
+	err := repository.DB.Create(&productCategory).Error
 	if err != nil {
 		panic(err)
 	}
-	return category
+	return productCategory
 }

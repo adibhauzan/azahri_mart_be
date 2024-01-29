@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type ProductCategory struct {
+type ProductType struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
 	Name      string    `gorm:"column:name"`
 	CreatedAt time.Time `gorm:"column:created_at;autoCreateTime"`

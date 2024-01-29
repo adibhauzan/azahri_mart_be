@@ -5,11 +5,20 @@ import (
 	"github.com/adibhauzan/azahri_mart_be/model/web/response"
 )
 
-func ToCreateCategoryResponse(category domain.Category) response.CreateCategoryResponse {
-	return response.CreateCategoryResponse{
-		ID:        category.ID,
-		Name:      category.Name,
-		CreatedAt: category.CreatedAt,
-		UpdatedAt: category.UpdatedAt,
+func ToCreateProductCategoryResponse(productCategory domain.ProductCategory) response.CreateProductCategoryResponse {
+	return response.CreateProductCategoryResponse{
+		ID:        productCategory.ID,
+		Name:      productCategory.Name,
+		CreatedAt: productCategory.CreatedAt,
+		UpdatedAt: productCategory.UpdatedAt,
+	}
+}
+
+func ToCreateProductTypeResponse(productType domain.ProductType) response.CreateProductTypeResponse {
+	return response.CreateProductTypeResponse{
+		ID:        productType.ID,
+		Name:      productType.Name,
+		CreatedAt: productType.CreatedAt,
+		UpdatedAt: productType.UpdatedAt,
 	}
 }

@@ -9,31 +9,31 @@ import (
 	"gorm.io/gorm"
 )
 
-type CategoryServiceImpl struct {
-	CategoryRepository repositories.CategoryRepository
-	DB                 *gorm.DB
+type ProductCategoryServiceImpl struct {
+	ProductCategoryRepository repositories.ProductCategoryRepository
+	DB                        *gorm.DB
 }
 
-func NewCategoryService(categoryRepo repositories.CategoryRepository, db *gorm.DB) CategoryService {
-	return &CategoryServiceImpl{
-		CategoryRepository: categoryRepo,
-		DB:                 db,
+func NewCategoryService(categoryRepo repositories.ProductCategoryRepository, db *gorm.DB) ProductCategoryService {
+	return &ProductCategoryServiceImpl{
+		ProductCategoryRepository: categoryRepo,
+		DB:                        db,
 	}
 }
 
-func (service *CategoryServiceImpl) Create(request request.CreateCategoryRequest) response.CreateCategoryResponse {
+func (service *ProductCategoryServiceImpl) Create(request request.CreateProductCategoryRequest) response.CreateProductCategoryResponse {
 
-	category := domain.Category{
+	productCategory := domain.ProductCategory{
 		Name: request.Name,
 	}
 
 	err := service.DB.Transaction(func(tx *gorm.DB) error {
-		category = service.CategoryRepository.Save(category)
+		productCategory = service.ProductCategoryRepository.Save(productCategory)
 		return nil
 	})
 
 	if err != nil {
 		panic(err)
 	}
-	return helper.ToCreateCategoryResponse(category)
+	return helper.ToCreateProductCategoryResponse(productCategory)
 }

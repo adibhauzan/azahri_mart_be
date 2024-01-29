@@ -13,15 +13,25 @@ import (
 func main() {
 
 	db := app.NewDbConnection()
-	db.AutoMigrate(&domain.Category{})
+	db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{})
 
-	categoryRepo := repositories.NewCategoryRepositoryImpl(db)
-	categoryService := service.NewCategoryService(categoryRepo, db)
-	CategoryController := controller.NewCategoryController(categoryService)
+	productCategoryRepo := repositories.NewCategoryRepositoryImpl(db)
+	productCategoryService := service.NewCategoryService(productCategoryRepo, db)
+	productCategoryController := controller.NewCategoryController(productCategoryService)
+
+	productTypeRepository := repositories.NewProductTypeRepository(db)
+	productTypeService := service.NewProductTypeService(productTypeRepository, db)
+	productTypeController := controller.NewProductTypeController(productTypeService)
 
 	router := gin.Default()
 
-	router.POST("/category", CategoryController.Create)
+	api := router.Group("/api")
+
+	productCategoryRoutes := api.Group("/category")
+	productTypeRoutes := api.Group("/type")
+
+	productCategoryRoutes.POST("/", productCategoryController.Create)
+	productTypeRoutes.POST("/", productTypeController.Create)
 
 	router.Run(":3000")
 

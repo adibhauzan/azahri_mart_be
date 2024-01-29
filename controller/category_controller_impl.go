@@ -8,24 +8,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type CategoryControllerImpl struct {
-	CategoryService service.CategoryService
+type ProductCategoryControllerImpl struct {
+	ProductCategoryService service.ProductCategoryService
 }
 
-func NewCategoryController(categoryService service.CategoryService) CategoryController {
-	return &CategoryControllerImpl{
-		CategoryService: categoryService,
+func NewCategoryController(productCategoryService service.ProductCategoryService) ProductCategoryController {
+	return &ProductCategoryControllerImpl{
+		ProductCategoryService: productCategoryService,
 	}
 }
 
-func (controller *CategoryControllerImpl) Create(ctx *gin.Context) {
+func (controller *ProductCategoryControllerImpl) Create(ctx *gin.Context) {
 
-	var categoryRequest request.CreateCategoryRequest
-	if err := ctx.ShouldBindJSON(&categoryRequest); err != nil {
+	var productCategoryRequest request.CreateProductCategoryRequest
+	if err := ctx.ShouldBindJSON(&productCategoryRequest); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	categoryResponse := controller.CategoryService.Create(categoryRequest)
-	ctx.JSON(201, categoryResponse)
+	productCategoryResponse := controller.ProductCategoryService.Create(productCategoryRequest)
+	ctx.JSON(201, productCategoryResponse)
 }
