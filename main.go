@@ -13,7 +13,10 @@ import (
 func main() {
 
 	db := app.NewDbConnection()
-	db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{})
+	err := db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{})
+	if err != nil {
+		panic(err.Error())
+	}
 
 	productCategoryRepo := repositories.NewCategoryRepositoryImpl(db)
 	productCategoryService := service.NewCategoryService(productCategoryRepo, db)
@@ -28,9 +31,14 @@ func main() {
 	api := router.Group("/api")
 
 	productCategoryRoutes := api.Group("/category")
-	productTypeRoutes := api.Group("/type")
 
 	productCategoryRoutes.POST("/", productCategoryController.Create)
+	productCategoryRoutes.PUT("/:id", productCategoryController.Update)
+	productCategoryRoutes.DELETE("/:id", productCategoryController.Delete)
+	productCategoryRoutes.GET("/:id", productCategoryController.FindById)
+	productCategoryRoutes.GET("/", productCategoryController.FindAll)
+
+	productTypeRoutes := api.Group("/type")
 	productTypeRoutes.POST("/", productTypeController.Create)
 
 	router.Run(":3000")
