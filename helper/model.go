@@ -22,11 +22,19 @@ func ToProductCategoryResponses(productCategories []domain.ProductCategory) []re
 	return productCategoryResponses
 }
 
-func ToCreateProductTypeResponse(productType domain.ProductType) response.CreateProductTypeResponse {
-	return response.CreateProductTypeResponse{
+func ToProductTypeResponse(productType domain.ProductType) response.ProductTypeResponse {
+	return response.ProductTypeResponse{
 		ID:        productType.ID,
 		Name:      productType.Name,
 		CreatedAt: productType.CreatedAt,
 		UpdatedAt: productType.UpdatedAt,
 	}
+}
+
+func ToProductTypeResponses(productTypes []domain.ProductType) []response.ProductTypeResponse {
+	var productTypeResponses []response.ProductTypeResponse
+	for _, productTypeResponse := range productTypes {
+		productTypeResponses = append(productTypeResponses, ToProductTypeResponse(productTypeResponse))
+	}
+	return productTypeResponses
 }

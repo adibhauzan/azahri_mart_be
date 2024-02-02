@@ -40,7 +40,14 @@ func main() {
 
 	productTypeRoutes := api.Group("/type")
 	productTypeRoutes.POST("/", productTypeController.Create)
+	productTypeRoutes.PUT("/:id", productTypeController.Update)
+	productTypeRoutes.DELETE("/:id", productTypeController.Delete)
+	productTypeRoutes.GET("/:id", productTypeController.FindById)
+	productTypeRoutes.GET("/", productTypeController.FindAll)
 
-	router.Run(":3000")
+	err = router.Run(":3000")
+	if err != nil {
+		panic(err)
+	}
 
 }

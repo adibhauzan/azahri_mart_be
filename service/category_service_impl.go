@@ -84,7 +84,7 @@ func (service *ProductCategoryServiceImpl) Delete(productCategoryId uuid.UUID) e
 	})
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 	return nil
 }

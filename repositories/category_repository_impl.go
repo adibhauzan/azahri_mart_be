@@ -28,7 +28,7 @@ func (repository *ProductCategoryRepositoryImpl) Save(productCategory domain.Pro
 func (repository *ProductCategoryRepositoryImpl) FindById(id uuid.UUID) (domain.ProductCategory, error) {
 	var productCategory domain.ProductCategory
 	if err := repository.DB.First(&productCategory, id).Error; err != nil {
-		return productCategory, err
+		return domain.ProductCategory{}, err
 	}
 	return productCategory, nil
 }
