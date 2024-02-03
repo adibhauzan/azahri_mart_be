@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"github.com/adibhauzan/azahri_mart_be/helper"
 	"github.com/adibhauzan/azahri_mart_be/model/domain"
 	"github.com/adibhauzan/azahri_mart_be/model/web/request"
@@ -49,7 +50,7 @@ func (service *ProductCategoryServiceImpl) Update(request request.UpdateProductC
 		id := productCategoryData.ID
 		existingId, err := service.ProductCategoryRepository.FindById(id)
 		if err != nil {
-			return err
+			return fmt.Errorf("not found product category: %v", err)
 		}
 		productCategoryData, err = service.ProductCategoryRepository.Update(existingId.ID, productCategoryData)
 		if err != nil {

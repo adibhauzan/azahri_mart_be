@@ -38,3 +38,14 @@ func ToProductTypeResponses(productTypes []domain.ProductType) []response.Produc
 	}
 	return productTypeResponses
 }
+
+func ToProductResponse(product domain.Product) response.ProductResponse {
+	return response.ProductResponse{
+		ID:         product.ID,
+		Name:       product.Name,
+		CategoryID: product.CategoryID,
+		TypeID:     product.TypeID,
+		CreatedAt:  product.CreatedAt,
+		UpdatedAt:  product.UpdatedAt,
+	}
+}

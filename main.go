@@ -13,7 +13,7 @@ import (
 func main() {
 
 	db := app.NewDbConnection()
-	err := db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{})
+	err := db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{}, domain.Product{})
 	if err != nil {
 		panic(err.Error())
 	}
@@ -25,6 +25,10 @@ func main() {
 	productTypeRepository := repositories.NewProductTypeRepository(db)
 	productTypeService := service.NewProductTypeService(productTypeRepository, db)
 	productTypeController := controller.NewProductTypeController(productTypeService)
+
+	productRepository := repositories.NewProductRepository(db)
+	productService := service.NewProductService(productRepository, db)
+	productController := controller.NewProductController(productService)
 
 	router := gin.Default()
 
@@ -44,6 +48,13 @@ func main() {
 	productTypeRoutes.DELETE("/:id", productTypeController.Delete)
 	productTypeRoutes.GET("/:id", productTypeController.FindById)
 	productTypeRoutes.GET("/", productTypeController.FindAll)
+
+	productRoutes := api.Group("/product")
+	productRoutes.POST("/", productController.Create)
+	productRoutes.PUT("/:id", productController.Update)
+	productRoutes.DELETE("/:id", productController.Delete)
+	productRoutes.GET("/:id", productController.FindById)
+	productRoutes.GET("/", productController.FindAll)
 
 	err = router.Run(":3000")
 	if err != nil {
