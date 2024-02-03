@@ -7,6 +7,6 @@ type CreateProductCategoryRequest struct {
 }
 
 type UpdateProductCategoryRequest struct {
-	ID   uuid.UUID `json:"id" uri:"id"`
-	Name string    `json:"name" form:"name" binding:"required,min=3,max=99"`
+	ID   uuid.UUID `json:"id" form:"id" uri:"id"`
+	Name string    `json:"name" form:"id" binding:"required,min=3,max=99"`
 }

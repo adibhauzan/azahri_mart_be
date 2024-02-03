@@ -45,7 +45,16 @@ func ToProductResponse(product domain.Product) response.ProductResponse {
 		Name:       product.Name,
 		CategoryID: product.CategoryID,
 		TypeID:     product.TypeID,
+		ExpiredAt: product.ExpiredAt,
 		CreatedAt:  product.CreatedAt,
 		UpdatedAt:  product.UpdatedAt,
 	}
+}
+
+func ToProductResponses(product []domain.Product) []response.ProductResponse {
+	var productResponses []response.ProductResponse
+	for _, productResponse := range product {
+		productResponses = append(productResponses, ToProductResponse(productResponse))
+	}
+	return productResponses
 }

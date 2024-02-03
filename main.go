@@ -27,7 +27,12 @@ func main() {
 	productTypeController := controller.NewProductTypeController(productTypeService)
 
 	productRepository := repositories.NewProductRepository(db)
-	productService := service.NewProductService(productRepository, db)
+	productService := service.NewProductService(
+		productRepository,
+		productCategoryRepo,
+		productTypeRepository,
+		db,
+	)
 	productController := controller.NewProductController(productService)
 
 	router := gin.Default()
@@ -54,6 +59,8 @@ func main() {
 	productRoutes.PUT("/:id", productController.Update)
 	productRoutes.DELETE("/:id", productController.Delete)
 	productRoutes.GET("/:id", productController.FindById)
+	productRoutes.GET("/category_id/:category_id", productController.FindByCategoryId)
+	productRoutes.GET("/type_id/:type_id", productController.FindByTypeId)
 	productRoutes.GET("/", productController.FindAll)
 
 	err = router.Run(":3000")
