@@ -52,6 +52,11 @@ func (controller *ProductCategoryControllerImpl) Update(ctx *gin.Context) {
 
 	productCategoryRequest.ID = id
 	productCategoryResponse, err := controller.ProductCategoryService.Update(productCategoryRequest)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
+		return
+	}
+	
 	ctx.JSON(200, gin.H{"code": 200, "message": "Update Product Category success", "data": productCategoryResponse})
 }
 func (controller *ProductCategoryControllerImpl) FindById(ctx *gin.Context) {
@@ -78,7 +83,7 @@ func (controller *ProductCategoryControllerImpl) FindById(ctx *gin.Context) {
 func (controller *ProductCategoryControllerImpl) FindAll(ctx *gin.Context) {
 	categoryResponses, err := controller.ProductCategoryService.FindAll()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
 		return
 	}
 	productCategoryResponse := categoryResponses
@@ -100,7 +105,7 @@ func (controller *ProductCategoryControllerImpl) Delete(ctx *gin.Context) {
 
 	err = controller.ProductCategoryService.Delete(id)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "Notfound"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"code": 200, "message": "Product Category Delete Success"})
