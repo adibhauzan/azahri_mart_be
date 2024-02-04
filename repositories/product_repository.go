@@ -9,7 +9,7 @@ type ProductRepository interface {
 	Save(product domain.Product) domain.Product
 	FindById(id uuid.UUID) (domain.Product, error)
 	FindAll() ([]domain.Product, error)
-	Update(id uuid.UUID, productCategory domain.Product) (domain.Product, error)
+	Update(id uuid.UUID, product domain.Product) (domain.Product, error)
 	Delete(product domain.Product) error
 	FindByCategoryId(categoryID uuid.UUID) ([]domain.Product, error)
 	FindByTypeId(typeID uuid.UUID) ([]domain.Product, error)

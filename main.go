@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/adibhauzan/azahri_mart_be/app"
 	"github.com/adibhauzan/azahri_mart_be/controller"
-	"github.com/adibhauzan/azahri_mart_be/model/domain"
 	"github.com/adibhauzan/azahri_mart_be/repositories"
 	"github.com/adibhauzan/azahri_mart_be/service"
 	"github.com/gin-gonic/gin"
@@ -13,19 +12,27 @@ import (
 func main() {
 
 	db := app.NewDbConnection()
-	err := db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{}, domain.Product{})
-	if err != nil {
-		panic(err.Error())
-	}
 
+	// Product Category 
 	productCategoryRepo := repositories.NewCategoryRepositoryImpl(db)
-	productCategoryService := service.NewCategoryService(productCategoryRepo, db)
+	productCategoryService := service.NewCategoryService(
+		productCategoryRepo, 
+		db,
+	)
 	productCategoryController := controller.NewCategoryController(productCategoryService)
 
-	productTypeRepository := repositories.NewProductTypeRepository(db)
-	productTypeService := service.NewProductTypeService(productTypeRepository, db)
-	productTypeController := controller.NewProductTypeController(productTypeService)
+	// End Product Category
 
+	// Product Type
+	productTypeRepository := repositories.NewProductTypeRepository(db)
+	productTypeService := service.NewProductTypeService(
+		productTypeRepository, 
+		db,
+	)
+	productTypeController := controller.NewProductTypeController(productTypeService)
+	// End Product Type 
+
+	// Product
 	productRepository := repositories.NewProductRepository(db)
 	productService := service.NewProductService(
 		productRepository,
@@ -34,7 +41,16 @@ func main() {
 		db,
 	)
 	productController := controller.NewProductController(productService)
+	// End Product
 
+	// Product Detail
+	productDetailRepository := repositories.NewProductDetailRepository(db)
+	productDetailService := service.NewProductDetailService(db, 
+		productDetailRepository, 
+		productRepository,
+	)
+	productDetailController := controller.NewProductDetailController(productDetailService)
+	// 
 	router := gin.Default()
 
 	api := router.Group("/api")
@@ -63,7 +79,12 @@ func main() {
 	productRoutes.GET("/type_id/:type_id", productController.FindByTypeId)
 	productRoutes.GET("/", productController.FindAll)
 
-	err = router.Run(":3000")
+
+
+	productDetailRoutes := api.Group("/product-detail", productDetailController.Create)
+	productDetailRoutes.POST("/", )
+
+	err := router.Run(":3000")
 	if err != nil {
 		panic(err)
 	}

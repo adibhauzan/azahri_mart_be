@@ -44,7 +44,6 @@ func (service *ProductServiceImpl) Create(request request.CreateProductRequest) 
 		CategoryID: request.CategoryID,
 		TypeID:     request.TypeID,
 		Name:       request.Name,
-		ExpiredAt:  request.ExpiredAt,
 	}
 
 	err = service.DB.Transaction(func(tx *gorm.DB) error {
@@ -63,7 +62,6 @@ func (service *ProductServiceImpl) Update(request request.UpdateProductRequest) 
 		Name:       request.Name,
 		CategoryID: request.CategoryID,
 		TypeID:     request.TypeID,
-		ExpiredAt:  request.ExpiredAt,
 	}
 
 	err := service.DB.Transaction(func(tx *gorm.DB) error {

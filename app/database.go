@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/adibhauzan/azahri_mart_be/model/domain"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -32,6 +33,11 @@ func NewDbConnection() *gorm.DB {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{}, &domain.Product{}, &domain.ProductDetail{})
 	if err != nil {
 		panic(err)
 	}

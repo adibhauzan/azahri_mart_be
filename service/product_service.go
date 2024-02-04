@@ -9,8 +9,8 @@ import (
 type ProductService interface {
 	Create(request request.CreateProductRequest) (response.ProductResponse, error)
 	Update(request request.UpdateProductRequest) (response.ProductResponse, error)
-	Delete(productCategoryId uuid.UUID) error
-	FindById(productCategoryId uuid.UUID) (response.ProductResponse, error)
+	Delete(productId uuid.UUID) error
+	FindById(productId uuid.UUID) (response.ProductResponse, error)
 	FindAll() ([]response.ProductResponse, error)
 	FindByCategoryId(categoryID uuid.UUID) ([]response.ProductResponse, error)
 	FindByTypeId(typeID uuid.UUID) ([]response.ProductResponse, error)

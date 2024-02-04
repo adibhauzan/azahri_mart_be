@@ -1,8 +1,9 @@
 package domain
 
 import (
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Product struct {
@@ -10,7 +11,7 @@ type Product struct {
 	CategoryID uuid.UUID `gorm:"column:category_id;type:uuid"`
 	TypeID     uuid.UUID `gorm:"column:type_id;type:uuid"`
 	Name       string    `gorm:"column:name"`
-	ExpiredAt  time.Time `gorm:"column:expired_at"`
+	Stock      int       `gorm:"column:stock"`
 	CreatedAt  time.Time `gorm:"column:created_at;autoCreateTime"`
 	UpdatedAt  time.Time `gorm:"column:updated_at;autoCreateTime;autoUpdateTime"`
 
