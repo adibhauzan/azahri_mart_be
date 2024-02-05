@@ -76,3 +76,22 @@ func ToProductDetailResponses(productDetail []domain.ProductDetail) []response.P
 	}
 	return productDetailResponses
 }
+
+func ToUserResponse(user domain.User) response.UserResponse {
+	return response.UserResponse{
+		ID:        user.ID,
+		Role:      string(user.Role),
+		Username:  user.Username,
+		Email:     user.Email,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+	}
+}
+
+func ToUserResponses(user []domain.User) []response.UserResponse {
+	var userResponses []response.UserResponse
+	for _, userResponse := range user {
+		userResponses = append(userResponses, ToUserResponse(userResponse))
+	}
+	return userResponses
+}

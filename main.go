@@ -51,25 +51,35 @@ func main() {
 	)
 	productDetailController := controller.NewProductDetailController(productDetailService)
 	// 
+
+	// User
+	userRepository := repositories.NewUserRepository(db)
+	userService := service.NewUserService(db, userRepository)
+	userController := controller.NewUserController(userService)
+	// End User
 	router := gin.Default()
 
 	api := router.Group("/api")
 
+	// product category routes
 	productCategoryRoutes := api.Group("/category")
-
 	productCategoryRoutes.POST("/", productCategoryController.Create)
 	productCategoryRoutes.PUT("/:id", productCategoryController.Update)
 	productCategoryRoutes.DELETE("/:id", productCategoryController.Delete)
 	productCategoryRoutes.GET("/:id", productCategoryController.FindById)
 	productCategoryRoutes.GET("/", productCategoryController.FindAll)
+	// end product category routes
 
+	// product type routes
 	productTypeRoutes := api.Group("/type")
 	productTypeRoutes.POST("/", productTypeController.Create)
 	productTypeRoutes.PUT("/:id", productTypeController.Update)
 	productTypeRoutes.DELETE("/:id", productTypeController.Delete)
 	productTypeRoutes.GET("/:id", productTypeController.FindById)
 	productTypeRoutes.GET("/", productTypeController.FindAll)
+	// end product type routes
 
+	// product routes
 	productRoutes := api.Group("/product")
 	productRoutes.POST("/", productController.Create)
 	productRoutes.PUT("/:id", productController.Update)
@@ -78,12 +88,20 @@ func main() {
 	productRoutes.GET("/category_id/:category_id", productController.FindByCategoryId)
 	productRoutes.GET("/type_id/:type_id", productController.FindByTypeId)
 	productRoutes.GET("/", productController.FindAll)
+	// end product routes
 
 
-
+	// product detail routes
 	productDetailRoutes := api.Group("/product-detail", productDetailController.Create)
 	productDetailRoutes.POST("/", )
+	// end product detail routes
 
+	// user routes
+	userRoutes := api.Group("/user")
+	userRoutes.POST("/register", userController.Create)
+	// end user routes
+
+	
 	err := router.Run(":3000")
 	if err != nil {
 		panic(err)

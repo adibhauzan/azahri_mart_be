@@ -36,3 +36,13 @@ type ProductDetailController interface {
 	// Delete(ctx *gin.Context)
 	// FindByProductId(ctx *gin.Context)
 }
+
+type UserController interface {
+	Create(ctx *gin.Context)
+	// Update(ctx *gin.Context)
+	// FindById(ctx *gin.Context)
+	// FindAll(ctx *gin.Context)
+	// Delete(ctx *gin.Context)
+	// FindByProductId(ctx *gin.Context)
+}
+

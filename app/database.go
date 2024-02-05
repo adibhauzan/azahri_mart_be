@@ -31,13 +31,15 @@ func NewDbConnection() *gorm.DB {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s", dbHost, dbUser, dbPassword, dbName, dbPort, dbSslMode, dbTimeZone)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
+		Logger:               logger.Default.LogMode(logger.Info),
+		FullSaveAssociations: true,
+		PrepareStmt:          true,
 	})
 	if err != nil {
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{}, &domain.Product{}, &domain.ProductDetail{})
+	err = db.AutoMigrate(&domain.ProductCategory{}, &domain.ProductType{}, &domain.Product{}, &domain.ProductDetail{}, &domain.User{})
 	if err != nil {
 		panic(err)
 	}

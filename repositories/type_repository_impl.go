@@ -17,7 +17,7 @@ func NewProductTypeRepository(db *gorm.DB) ProductTypeRepository {
 }
 
 func (repository *ProductTypeRepositoryImpl) Save(productType domain.ProductType) domain.ProductType {
-	productType.ID = uuid.New()
+	
 	err := repository.DB.Create(&productType).Error
 	if err != nil {
 		return domain.ProductType{}

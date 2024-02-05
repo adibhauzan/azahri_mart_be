@@ -27,6 +27,7 @@ func NewCategoryService(categoryRepo repositories.ProductCategoryRepository, db 
 func (service *ProductCategoryServiceImpl) Create(request request.CreateProductCategoryRequest) (response.ProductCategoryResponse, error) {
 
 	productCategory := domain.ProductCategory{
+		ID:   uuid.New(),
 		Name: request.Name,
 	}
 

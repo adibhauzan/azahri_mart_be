@@ -41,6 +41,7 @@ func (service *ProductServiceImpl) Create(request request.CreateProductRequest) 
 	}
 
 	product := domain.Product{
+		ID:         uuid.New(),
 		CategoryID: request.CategoryID,
 		TypeID:     request.TypeID,
 		Name:       request.Name,

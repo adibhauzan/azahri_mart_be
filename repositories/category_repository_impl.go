@@ -17,7 +17,6 @@ func NewCategoryRepositoryImpl(db *gorm.DB) ProductCategoryRepository {
 }
 
 func (repository *ProductCategoryRepositoryImpl) Save(productCategory domain.ProductCategory) domain.ProductCategory {
-	productCategory.ID = uuid.New()
 	err := repository.DB.Create(&productCategory).Error
 	if err != nil {
 		return domain.ProductCategory{}
