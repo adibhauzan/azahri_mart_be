@@ -24,7 +24,7 @@ func NewProductTypeService(productTypeRepository repositories.ProductTypeReposit
 
 func (service *ProductTypeServiceImpl) Create(request request.CreateProductTypeRequest) (response.ProductTypeResponse, error) {
 	productType := domain.ProductType{
-		ID: uuid.New(),
+		ID:   uuid.New(),
 		Name: request.Name,
 	}
 
