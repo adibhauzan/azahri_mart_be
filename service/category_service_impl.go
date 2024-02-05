@@ -93,9 +93,10 @@ func (service *ProductCategoryServiceImpl) Delete(productCategoryId uuid.UUID) e
 }
 
 func (service *ProductCategoryServiceImpl) FindById(productCategoryId uuid.UUID) (response.ProductCategoryResponse, error) {
-	productCategoryData := domain.ProductCategory{
-		ID: productCategoryId,
-	}
+	
+	var productCategoryData domain.ProductCategory
+	productCategoryData.ID = productCategoryId
+
 	productCategoryData, err := service.ProductCategoryRepository.FindById(productCategoryId)
 	if err != nil {
 		return response.ProductCategoryResponse{}, err
