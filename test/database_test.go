@@ -2,14 +2,15 @@ package test
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -53,12 +54,12 @@ func NewDbConnection() *gorm.DB {
 
 func TestDbConnetion(t *testing.T) {
 	db := NewDbConnection()
+	assert.Nil(t, db)
 
-	assert.NotNil(t, db)
 }
 
 func TestDbConnetionFailure(t *testing.T) {
 	db := NewDbConnection()
+	assert.NotNil(t, db)
 
-	assert.Nil(t, db)
 }

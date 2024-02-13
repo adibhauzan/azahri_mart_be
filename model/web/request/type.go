@@ -7,6 +7,6 @@ type CreateProductTypeRequest struct {
 }
 
 type UpdateProductTypeRequest struct {
-	ID   uuid.UUID `json:"id" uri:"id"`
+	ID   uuid.UUID `json:"id"`
 	Name string    `json:"name" form:"name" binding:"required,min=3,max=99"`
 }

@@ -34,3 +34,22 @@ func (controller *UserControllerImpl) Create(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, gin.H{"code": http.StatusCreated, "message": "Create User success","data": userResponse})
 }
+
+func (controller *UserControllerImpl)Update(ctx *gin.Context){
+	panic("asdasd")
+}
+
+func (controller *UserControllerImpl)FindById(ctx *gin.Context){
+	panic("asdasd")
+}
+
+func (controller *UserControllerImpl)Delete(ctx *gin.Context){
+	panic("asdasd")
+}
+
+func (controller *UserControllerImpl)FindAll(ctx *gin.Context){
+	panic("asdasd")
+}
+
+
+

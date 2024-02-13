@@ -2,47 +2,33 @@ package controller
 
 import "github.com/gin-gonic/gin"
 
-type ProductCategoryController interface {
+type HandlerController interface {
 	Create(ctx *gin.Context)
 	Update(ctx *gin.Context)
 	FindById(ctx *gin.Context)
 	FindAll(ctx *gin.Context)
 	Delete(ctx *gin.Context)
+}
+
+type ProductCategoryController interface {
+	HandlerController
 }
 
 type ProductTypeController interface {
-	Create(ctx *gin.Context)
-	Update(ctx *gin.Context)
-	FindById(ctx *gin.Context)
-	FindAll(ctx *gin.Context)
-	Delete(ctx *gin.Context)
+	HandlerController
 }
 
 type ProductController interface {
-	Create(ctx *gin.Context)
-	Update(ctx *gin.Context)
-	FindById(ctx *gin.Context)
-	FindAll(ctx *gin.Context)
-	Delete(ctx *gin.Context)
+	HandlerController
 	FindByCategoryId(ctx *gin.Context)
 	FindByTypeId(ctx *gin.Context)
 }
 
 type ProductDetailController interface {
-	Create(ctx *gin.Context)
-	// Update(ctx *gin.Context)
-	// FindById(ctx *gin.Context)
-	// FindAll(ctx *gin.Context)
-	// Delete(ctx *gin.Context)
-	// FindByProductId(ctx *gin.Context)
+	HandlerController
+	FindByProductId(ctx *gin.Context)
 }
 
 type UserController interface {
-	Create(ctx *gin.Context)
-	// Update(ctx *gin.Context)
-	// FindById(ctx *gin.Context)
-	// FindAll(ctx *gin.Context)
-	// Delete(ctx *gin.Context)
-	// FindByProductId(ctx *gin.Context)
+	HandlerController
 }
-

@@ -94,6 +94,11 @@ func main() {
 	// product detail routes
 	productDetailRoutes := api.Group("/product-detail", productDetailController.Create)
 	productDetailRoutes.POST("/", )
+	productDetailRoutes.PUT("/:id", productDetailController.Update)
+	productDetailRoutes.DELETE("/:id", productDetailController.Delete)
+	productDetailRoutes.GET("/:id", productDetailController.FindById)
+	productDetailRoutes.GET("/product_id/:product_id", productDetailController.FindByProductId)
+	productDetailRoutes.GET("/", productDetailController.FindAll)
 	// end product detail routes
 
 	// user routes
