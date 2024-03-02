@@ -11,10 +11,10 @@ import (
 )
 
 type ProductDetailControllerImpl struct {
-	ProductDetailService service.ProductDetailService
+	ProductDetailService *service.ProductDetailServiceImpl
 }
 
-func NewProductDetailController(productDetailService service.ProductDetailService) ProductDetailController {
+func NewProductDetailController(productDetailService *service.ProductDetailServiceImpl) *ProductDetailControllerImpl {
 	return &ProductDetailControllerImpl{
 		ProductDetailService: productDetailService,
 	}
@@ -80,12 +80,14 @@ func (controller *ProductDetailControllerImpl) FindById(ctx *gin.Context) {
 
 func (controller *ProductDetailControllerImpl) FindAll(ctx *gin.Context) {
 	productDetailResponses, err := controller.ProductDetailService.FindAll()
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
 		return
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{"code": 200, "data": productDetailResponses})
+		return
 	}
-	productDetailResponse := productDetailResponses
-	ctx.JSON(200, gin.H{"code": 200, "data": productDetailResponse})
 }
 
 func (controller *ProductDetailControllerImpl) Delete(ctx *gin.Context) {
@@ -102,7 +104,7 @@ func (controller *ProductDetailControllerImpl) Delete(ctx *gin.Context) {
 
 	err = controller.ProductDetailService.Delete(id)
 	if err != nil {
-		if err == utils.ErrNotFound{
+		if err == utils.ErrNotFound {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Not Found", "message": err.Error()})
 		} else {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
@@ -112,18 +114,17 @@ func (controller *ProductDetailControllerImpl) Delete(ctx *gin.Context) {
 	ctx.JSON(http.StatusNoContent, nil)
 }
 
+// func (controller *ProductDetailControllerImpl) FindByProductId(ctx *gin.Context) {
+// 	productID, err := uuid.Parse(ctx.Param("product_id"))
+// 	if err != nil {
+// 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse 'category_id' to UUID"})
+// 		return
+// 	}
 
-func (controller *ProductDetailControllerImpl) FindByProductId(ctx *gin.Context) {
-	productID, err := uuid.Parse(ctx.Param("product_id"))
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse 'category_id' to UUID"})
-		return
-	}
-
-	products, err := controller.ProductDetailService.FindByProductId(productID)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
-		return
-	}
-	ctx.JSON(http.StatusOK, gin.H{"code": http.StatusOK, "message": "Product Details found by product ID", "data": products})
-}
+// 	products, err := controller.ProductDetailService.FindByProductId(productID)
+// 	if err != nil {
+// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
+// 		return
+// 	}
+// 	ctx.JSON(http.StatusOK, gin.H{"code": http.StatusOK, "message": "Product Details found by product ID", "data": products})
+// }

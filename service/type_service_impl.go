@@ -11,11 +11,11 @@ import (
 )
 
 type ProductTypeServiceImpl struct {
-	ProductTypeRepository repositories.ProductTypeRepository
+	ProductTypeRepository *repositories.ProductTypeRepositoryImpl
 	DB                    *gorm.DB
 }
 
-func NewProductTypeService(productTypeRepository repositories.ProductTypeRepository, db *gorm.DB) ProductTypeService {
+func NewProductTypeService(productTypeRepository *repositories.ProductTypeRepositoryImpl, db *gorm.DB) *ProductTypeServiceImpl {
 	return &ProductTypeServiceImpl{
 		ProductTypeRepository: productTypeRepository,
 		DB:                    db,

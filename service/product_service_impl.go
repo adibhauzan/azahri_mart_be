@@ -14,12 +14,12 @@ import (
 
 type ProductServiceImpl struct {
 	DB                 *gorm.DB
-	ProductRepository  repositories.ProductRepository
-	CategoryRepository repositories.ProductCategoryRepository
-	TypeRepository     repositories.ProductTypeRepository
+	ProductRepository  *repositories.ProductRepositoryImpl
+	CategoryRepository *repositories.ProductCategoryRepositoryImpl
+	TypeRepository     *repositories.ProductTypeRepositoryImpl
 }
 
-func NewProductService(productRepo repositories.ProductRepository, categoryRepo repositories.ProductCategoryRepository, typeRepo repositories.ProductTypeRepository, db *gorm.DB) ProductService {
+func NewProductService(productRepo *repositories.ProductRepositoryImpl, categoryRepo *repositories.ProductCategoryRepositoryImpl, typeRepo *repositories.ProductTypeRepositoryImpl, db *gorm.DB) ProductService {
 	return &ProductServiceImpl{
 		ProductRepository:  productRepo,
 		DB:                 db,

@@ -14,20 +14,19 @@ import (
 
 type ProductDetailServiceImpl struct {
 	DB                      *gorm.DB
-	ProductDetailRepository repositories.ProductDetailRepository
-	ProductRepository       repositories.ProductRepository
+	ProductRepository       *repositories.ProductRepositoryImpl
+	ProductDetailRepository *repositories.ProductDetailRepositoryImpl
 }
 
-func NewProductDetailService(db *gorm.DB, productDetailRepo repositories.ProductDetailRepository, productRepo repositories.ProductRepository) ProductDetailService {
+func NewProductDetailService(db *gorm.DB, productDetailRepo *repositories.ProductDetailRepositoryImpl) ProductDetailService {
 	return &ProductDetailServiceImpl{
 		DB:                      db,
 		ProductDetailRepository: productDetailRepo,
-		ProductRepository:       productRepo,
 	}
 }
 
 func (service *ProductDetailServiceImpl) Create(request request.CreateProductDetailRequest) (response.ProductDetailResponse, error) {
-	product, err := service.ProductRepository.FindById(request.ProductID)
+	product, err := service.ProductDetailRepository.FindById(request.ProductID)
 	if err != nil {
 		return response.ProductDetailResponse{}, fmt.Errorf("not found product : %v", err)
 	}
@@ -44,8 +43,8 @@ func (service *ProductDetailServiceImpl) Create(request request.CreateProductDet
 			return fmt.Errorf("failed to save product detail: %v", err)
 		}
 
-		product.Stock++
-		_, err = service.ProductRepository.Update(product.ID, product)
+		productStock := productDetail.Product
+		_, err = service.ProductRepository.Update(product.ID, productStock)
 		if err != nil {
 			return fmt.Errorf("failed to update product stock: %v", err)
 		}
@@ -58,7 +57,7 @@ func (service *ProductDetailServiceImpl) Create(request request.CreateProductDet
 }
 
 func (service *ProductDetailServiceImpl) Update(request request.UpdateProductDetailRequest) (response.ProductDetailResponse, error) {
-	product, err := service.ProductRepository.FindById(request.ProductID)
+	product, err := service.ProductDetailRepository.FindById(request.ProductID)
 	if err != nil {
 		return response.ProductDetailResponse{}, fmt.Errorf("not found product: %v", err)
 	}
@@ -70,6 +69,8 @@ func (service *ProductDetailServiceImpl) Update(request request.UpdateProductDet
 		// Copy other fields as needed
 	}
 
+	var productData domain.Product
+
 	err = service.DB.Transaction(func(tx *gorm.DB) error {
 		// Fetch existing product detail
 		existingDetail, err := service.ProductDetailRepository.FindById(request.ID)
@@ -78,8 +79,7 @@ func (service *ProductDetailServiceImpl) Update(request request.UpdateProductDet
 		}
 
 		// Update product stock
-		product.Stock--
-		_, err = service.ProductRepository.Update(product.ID, product)
+		_, err = service.ProductRepository.Update(product.ID, productData)
 		if err != nil {
 			return fmt.Errorf("failed to update product stock: %v", err)
 		}
@@ -100,20 +100,19 @@ func (service *ProductDetailServiceImpl) Update(request request.UpdateProductDet
 	return helper.ToProductDetailResponse(productDetailData), nil
 }
 
-
 func (service *ProductDetailServiceImpl) Delete(productDetailId uuid.UUID) error {
-	product, err := service.ProductRepository.FindById(productDetailId)
+	product, err := service.ProductDetailRepository.FindById(productDetailId)
 	if err != nil {
 		return fmt.Errorf("failed to find product: %v", err)
 	}
 
 	productData := domain.Product{
 		ID:    product.ID,
-		Stock: product.Stock - 1, 
+		Stock: product.Product.Stock - 1,
 	}
 
 	err = service.DB.Transaction(func(tx *gorm.DB) error {
-		err := service.ProductRepository.Delete(product)
+		err := service.ProductDetailRepository.Delete(product)
 		if err != nil {
 			return fmt.Errorf("failed to delete product details: %v", err)
 		}
@@ -133,7 +132,6 @@ func (service *ProductDetailServiceImpl) Delete(productDetailId uuid.UUID) error
 	return nil
 }
 
-
 func (service *ProductDetailServiceImpl) FindById(productDetailId uuid.UUID) (response.ProductDetailResponse, error) {
 	productDetailData, err := service.ProductDetailRepository.FindById(productDetailId)
 	if err != nil {
@@ -152,11 +150,11 @@ func (service *ProductDetailServiceImpl) FindAll() ([]response.ProductDetailResp
 	return helper.ToProductDetailResponses(productDetails), nil
 }
 
-func (service *ProductDetailServiceImpl) FindByProductId(productDetailId uuid.UUID) ([]response.ProductDetailResponse, error) {
-	productsDetail, err := service.ProductDetailRepository.FindByProductId(productDetailId)
-	if err != nil {
-		return nil, fmt.Errorf("failed to find product details by product ID: %v", err)
-	}
+// func (service *ProductDetailServiceImpl) FindByProductId(productDetailId uuid.UUID) ([]response.ProductDetailResponse, error) {
+// 	productsDetail, err := service.ProductDetailRepository.FindByProductId(productDetailId)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed to find product details by product ID: %v", err)
+// 	}
 
-	return helper.ToProductDetailResponses(productsDetail), nil
-}
+// 	return helper.ToProductDetailResponses(productsDetail), nil
+// }

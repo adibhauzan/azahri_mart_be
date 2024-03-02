@@ -9,10 +9,10 @@ import (
 )
 
 type UserControllerImpl struct {
-	UserService service.UserService
+	UserService *service.UserServiceImpl
 }
 
-func NewUserController(userService service.UserService) UserController {
+func NewUserController(userService *service.UserServiceImpl) *UserControllerImpl {
 	return &UserControllerImpl{
 		UserService: userService,
 	}
@@ -32,24 +32,21 @@ func (controller *UserControllerImpl) Create(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"code": http.StatusCreated, "message": "Create User success","data": userResponse})
+	ctx.JSON(http.StatusCreated, gin.H{"code": http.StatusCreated, "message": "Create User success", "data": userResponse})
 }
 
-func (controller *UserControllerImpl)Update(ctx *gin.Context){
+func (controller *UserControllerImpl) Update(ctx *gin.Context) {
 	panic("asdasd")
 }
 
-func (controller *UserControllerImpl)FindById(ctx *gin.Context){
+func (controller *UserControllerImpl) FindById(ctx *gin.Context) {
 	panic("asdasd")
 }
 
-func (controller *UserControllerImpl)Delete(ctx *gin.Context){
+func (controller *UserControllerImpl) Delete(ctx *gin.Context) {
 	panic("asdasd")
 }
 
-func (controller *UserControllerImpl)FindAll(ctx *gin.Context){
+func (controller *UserControllerImpl) FindAll(ctx *gin.Context) {
 	panic("asdasd")
 }
-
-
-

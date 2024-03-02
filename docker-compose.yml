@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    image: adibhauzan/azahrimart
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: adib5665
+      DATABASE_NAME: azahri_mart
+      DATABASE_SSL_MODE: disable
+      DATABASE_TIME_ZONE: Asia/Shanghai
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: azahri_mart
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: adib5665
+    ports:
+      - "5432:5432"

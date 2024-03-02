@@ -9,10 +9,10 @@ import (
 )
 
 type ProductControllerImpl struct {
-	ProductService service.ProductService
+	ProductService *service.ProductServiceImpl
 }
 
-func NewProductController(productService service.ProductService) ProductController {
+func NewProductController(productService *service.ProductServiceImpl) *ProductControllerImpl {
 	return &ProductControllerImpl{ProductService: productService}
 }
 

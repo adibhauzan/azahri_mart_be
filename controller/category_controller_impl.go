@@ -10,10 +10,10 @@ import (
 )
 
 type ProductCategoryControllerImpl struct {
-	ProductCategoryService service.ProductCategoryService
+	ProductCategoryService *service.ProductCategoryServiceImpl
 }
 
-func NewCategoryController(productCategoryService service.ProductCategoryService) ProductCategoryController {
+func NewCategoryController(productCategoryService *service.ProductCategoryServiceImpl) *ProductCategoryControllerImpl {
 	return &ProductCategoryControllerImpl{
 		ProductCategoryService: productCategoryService,
 	}
@@ -56,7 +56,7 @@ func (controller *ProductCategoryControllerImpl) Update(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error", "message": err.Error()})
 		return
 	}
-	
+
 	ctx.JSON(200, gin.H{"code": 200, "message": "Update Product Category success", "data": productCategoryResponse})
 }
 func (controller *ProductCategoryControllerImpl) FindById(ctx *gin.Context) {

@@ -10,14 +10,14 @@ type ProductTypeRepositoryImpl struct {
 	DB *gorm.DB
 }
 
-func NewProductTypeRepository(db *gorm.DB) ProductTypeRepository {
+func NewProductTypeRepository(db *gorm.DB) *ProductTypeRepositoryImpl {
 	return &ProductTypeRepositoryImpl{
 		DB: db,
 	}
 }
 
 func (repository *ProductTypeRepositoryImpl) Save(productType domain.ProductType) domain.ProductType {
-	
+
 	err := repository.DB.Create(&productType).Error
 	if err != nil {
 		return domain.ProductType{}

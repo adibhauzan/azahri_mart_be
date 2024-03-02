@@ -13,11 +13,11 @@ import (
 )
 
 type ProductCategoryServiceImpl struct {
-	ProductCategoryRepository repositories.ProductCategoryRepository
+	ProductCategoryRepository *repositories.ProductCategoryRepositoryImpl
 	DB                        *gorm.DB
 }
 
-func NewCategoryService(categoryRepo repositories.ProductCategoryRepository, db *gorm.DB) ProductCategoryService {
+func NewCategoryService(categoryRepo *repositories.ProductCategoryRepositoryImpl, db *gorm.DB) ProductCategoryService {
 	return &ProductCategoryServiceImpl{
 		ProductCategoryRepository: categoryRepo,
 		DB:                        db,
@@ -93,7 +93,7 @@ func (service *ProductCategoryServiceImpl) Delete(productCategoryId uuid.UUID) e
 }
 
 func (service *ProductCategoryServiceImpl) FindById(productCategoryId uuid.UUID) (response.ProductCategoryResponse, error) {
-	
+
 	var productCategoryData domain.ProductCategory
 	productCategoryData.ID = productCategoryId
 

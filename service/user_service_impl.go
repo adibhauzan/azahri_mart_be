@@ -16,10 +16,10 @@ import (
 
 type UserServiceImpl struct {
 	DB             *gorm.DB
-	UserRepository repositories.UserRepository
+	UserRepository *repositories.UserRepositoryImpl
 }
 
-func NewUserService(db *gorm.DB, userRepo repositories.UserRepository) UserService {
+func NewUserService(db *gorm.DB, userRepo *repositories.UserRepositoryImpl) *UserServiceImpl {
 	return &UserServiceImpl{
 		DB:             db,
 		UserRepository: userRepo,
